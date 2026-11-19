@@ -35,11 +35,11 @@
   h1 span{color:var(--gold)}
   .sub{font-size:17px;font-weight:700;opacity:.95;margin:0}
   .tiny{font-size:13px;opacity:.7;margin:6px 0 0}
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0 14px}
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:16px 0 14px}
   .stat{background:rgba(255,243,224,.08);border:1px solid rgba(255,243,224,.15);border-radius:16px;padding:10px 4px;text-align:center;color:#fff3e0}
   .stat b{display:block;font-family:Fraunces,Georgia,serif;font-size:30px;line-height:1.1}
   .stat small{font-size:12px;font-weight:700;opacity:.85}
-  .stat.yes b{color:#9fd27f}.stat.maybe b{color:var(--gold)}.stat.no b{color:#f08a8a}
+  .stat.yes b{color:#9fd27f}.stat.no b{color:#f08a8a}
   .card{background:var(--card);border-radius:var(--r);padding:18px 16px;margin:0 0 14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
   h2{font-family:Fraunces,Georgia,serif;font-size:24px;margin:0 0 4px}
   .hint{color:var(--muted);font-size:14px;margin:0 0 12px}
@@ -49,14 +49,13 @@
     background:#fff;color:var(--ink);outline:none;-webkit-appearance:none;appearance:none
   }
   input[type=text]:focus{border-color:var(--pumpkin)}
-  .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .seg{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
   .seg button,.step button{
     font:inherit;font-weight:800;font-size:15px;min-height:52px;border-radius:14px;border:2px solid var(--line);
     background:#fff;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s,background .15s,border-color .15s
   }
   .seg button:active,.step button:active{transform:scale(.96)}
   .seg button[aria-pressed=true][data-v=yes]{background:#e6f2dc;border-color:var(--sage)}
-  .seg button[aria-pressed=true][data-v=maybe]{background:#fbefd2;border-color:var(--gold)}
   .seg button[aria-pressed=true][data-v=no]{background:#f8dfe1;border-color:var(--cran)}
   .step{display:flex;align-items:center;gap:10px}
   .step button{width:52px;font-size:22px}
@@ -90,7 +89,7 @@
   .who b{display:block;font-size:16px;overflow-wrap:anywhere}
   .who small{color:var(--muted);font-size:13px;overflow-wrap:anywhere}
   .pill{flex:0 0 auto;font-size:13px;font-weight:800;padding:6px 10px;border-radius:999px;white-space:nowrap}
-  .pill.yes{background:#e6f2dc;color:#3f5e2c}.pill.maybe{background:#fbefd2;color:#7a5410}.pill.no{background:#f8dfe1;color:#7d1f29}
+  .pill.yes{background:#e6f2dc;color:#3f5e2c}.pill.no{background:#f8dfe1;color:#7d1f29}
   .dish{display:flex;gap:10px;align-items:flex-start;padding:12px 2px;border-bottom:1px solid var(--line);animation:pop .35s ease-out both}
   .dish:last-child{border-bottom:0}
   .dish .e{font-size:26px;line-height:1}
@@ -123,30 +122,28 @@
   </header>
 
   <div class="stats" aria-live="polite">
-    <div class="stat yes"><b id="nYes">0</b><small>coming 🎉</small></div>
-    <div class="stat maybe"><b id="nMaybe">0</b><small>maybe 🤔</small></div>
-    <div class="stat no"><b id="nNo">0</b><small>can't 😢</small></div>
+    <div class="stat yes"><b id="nYes">0</b><small>in ✅</small></div>
+    <div class="stat no"><b id="nNo">0</b><small>fkn losers 😂💩</small></div>
   </div>
 
   <section class="card" id="formCard">
     <div class="me" id="meBar"><span id="meText"></span><button type="button" class="linkbtn" id="notMe">Not you?</button></div>
     <h2 id="formTitle">Who are you?</h2>
-    <p class="hint">Takes 10 seconds. Less time than finding parking.</p>
     <form id="f" autocomplete="off" novalidate>
       <label for="name">Your name</label>
-      <input type="text" id="name" maxlength="40" placeholder="e.g. DJ Dave" autocapitalize="words" enterkeyhint="next">
+      <input type="text" id="name" maxlength="40" placeholder="e.g. Matias Nose Pimple" autocapitalize="words" enterkeyhint="next">
 
       <label>Are you coming?</label>
       <div class="seg" role="group" aria-label="Are you coming">
-        <button type="button" data-v="yes" aria-pressed="false">I'm in 🎉</button>
-        <button type="button" data-v="maybe" aria-pressed="false">Maybe 🤔</button>
-        <button type="button" data-v="no" aria-pressed="false">Can't 😢</button>
+        <button type="button" data-v="yes" aria-pressed="false">I'm in ✅</button>
+        <button type="button" data-v="no" aria-pressed="false">fkn loser 😂💩</button>
       </div>
 
 
       <div id="bringWrap">
         <label for="bring">What are you bringing? <span style="font-weight:800;color:var(--cran)">(required)</span></label>
-        <input type="text" id="bring" maxlength="60" placeholder="chips, drinks, pizza, ice…" enterkeyhint="done">
+        <p class="hint" style="margin:0 0 8px">we need drinks, food, utensils, and bad biches with nice feet</p>
+        <input type="text" id="bring" maxlength="60" placeholder="" enterkeyhint="done">
         <div class="policy" id="policy"><b>⚠️ Disclaimer</b>Contribute to the shindig or take yo ahh home. I'm serious. — Ali</div>
         <div class="dupwarn" id="dupwarn"></div>
       </div>
@@ -166,11 +163,11 @@
 
   <section class="card">
     <h2>Who's bringing what</h2>
-    <p class="hint">Check before you shop. Nobody needs four bags of the same chips.</p>
+    <p class="hint">communicate and don't bring garbage / duplicates</p>
     <div id="dishes"></div>
   </section>
 
-  <footer>Made with 🧡 and questionable playlist choices</footer>
+  <footer>Free Palestine</footer>
 </div>
 
 <script>
@@ -195,7 +192,7 @@
   const FOOD = [['pizza', '🍕'], ['taco', '🌮'], ['burger', '🍔'], ['slider', '🍔'], ['dip', '🫕'], ['salsa', '🌶️'], ['guac', '🥑'], ['chicken', '🍗'], ['wing', '🍗'], ['mac', '🧀'], ['cheese', '🧀'], ['potato', '🥔'], ['mash', '🥔'], ['salad', '🥗'], ['bread', '🍞'], ['roll', '🥖'], ['wine', '🍷'], ['beer', '🍺'], ['drink', '🥤'], ['soda', '🥤'], ['juice', '🧃'], ['ice', '🧊'], ['cake', '🎂'], ['cookie', '🍪'], ['brownie', '🍫'], ['dessert', '🍰'], ['rice', '🍚'], ['ham', '🍖'], ['casserole', '🥘'], ['chip', '🍿'], ['snack', '🍿'], ['plate', '🍽️'], ['cup', '🥤'], ['napkin', '🧻'], ['vibe', '✨'], ['music', '🎶'], ['speaker', '🔊'], ['game', '🎲'], ['tequila', '🥃'], ['whiskey', '🥃'], ['vodka', '🍸'], ['liquor', '🥃'], ['fruit', '🍇']];
   const foodEmoji = s => { const k = key(s); const f = FOOD.find(([w]) => k.includes(w)); return f ? f[1] : '🍽️'; };
   const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
-  const clean = d => ({ rsvps: Array.isArray(d && d.rsvps) ? d.rsvps.filter(r => r && r.id && r.name) : [] });
+  const clean = d => ({ rsvps: Array.isArray(d && d.rsvps) ? d.rsvps.filter(r => r && r.id && r.name).map(r => ({ ...r, status: r.status === 'no' ? 'no' : 'yes' })) : [] });
 
   // ---------- network ----------
   async function load() {
@@ -261,9 +258,9 @@
     if (busy) return;
     const name = norm($('name').value);
     if (!name) { say('We need a name. "Mystery Guest" is taken. 🕵️', true); $('name').focus(); return; }
-    if (!status) { say('Coming, maybe, or can\'t? Pick one 👆', true); return; }
+    if (!status) { say('I\'m in, or fkn loser? Pick one 👆', true); return; }
     if (status !== 'no' && !norm($('bring').value)) {
-      say(status === 'yes' ? 'Nice try. What are you bringing? 👀' : 'Even a maybe brings something. What are you bringing? 👀', true);
+      say('Nice try. What are you bringing? 👀', true);
       const b = $('bring'), pol = $('policy'); b.classList.add('bad'); b.focus();
       pol.classList.remove('shake'); void pol.offsetWidth; pol.classList.add('shake');
       return;
@@ -277,7 +274,7 @@
       data = await save(fresh);
       myId = entry.id; localStorage.setItem(LS, myId);
       render();
-      say(status === 'yes' ? 'You\'re on the list! See you Saturday 🪩' : status === 'maybe' ? 'Noted. We\'ll save you a slice just in case 🍕' : 'We\'ll miss you. Leftovers will not be mailed. 😢');
+      say(status === 'yes' ? 'You\'re on the list! See you Saturday 🪩' : 'We\'ll miss you. Leftovers will not be mailed. 😢');
       if (status !== 'no') burst();
     } catch (err) {
       say('Someone tripped over the aux cord. Try again in a sec.', true);
@@ -299,9 +296,8 @@
 
   // ---------- render ----------
   function render() {
-    const rs = data.rsvps.slice().sort((a, b) => ({ yes: 0, maybe: 1, no: 2 }[a.status] - { yes: 0, maybe: 1, no: 2 }[b.status]) || a.name.localeCompare(b.name));
+    const rs = data.rsvps.slice().sort((a, b) => ({ yes: 0, no: 1 }[a.status] - { yes: 0, no: 1 }[b.status]) || a.name.localeCompare(b.name));
     $('nYes').textContent = rs.filter(r => r.status === 'yes').length;
-    $('nMaybe').textContent = rs.filter(r => r.status === 'maybe').length;
     $('nNo').textContent = rs.filter(r => r.status === 'no').length;
 
     const g = $('guests'); g.replaceChildren();
@@ -314,7 +310,7 @@
       const who = el('div', 'who'); who.append(el('b', '', r.name + (r.id === myId ? ' (you)' : '')));
       const bits = []; if (r.dish) bits.push('bringing ' + r.dish);
       if (bits.length) who.append(el('small', '', bits.join(' · ')));
-      const pill = el('span', 'pill ' + r.status, r.status === 'yes' ? 'coming' : r.status === 'maybe' ? 'maybe' : "can't");
+      const pill = el('span', 'pill ' + r.status, r.status === 'yes' ? "I'm in" : 'fkn loser');
       li.append(av, who, pill); g.append(li);
     });
 
@@ -325,7 +321,7 @@
     }
     ds.forEach(r => {
       const d = el('div', 'dish');
-      const t = el('div', 't'); t.append(el('b', '', r.dish), el('small', '', r.name + (r.status === 'maybe' ? ' (maybe)' : '')));
+      const t = el('div', 't'); t.append(el('b', '', r.dish), el('small', '', r.name));
       const twins = ds.filter(o => o !== r && overlap(r.dish, o.dish));
       if (twins.length) { t.append(document.createElement('br'), el('span', 'dup', '👯 same as ' + twins.map(o => o.name).join(', '))); }
       d.append(el('div', 'e', foodEmoji(r.dish)), t); box.append(d);
