@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Friendsgiving 🦃 RSVP</title>
+<title>Saturday Night at Ali's 🦃 RSVP</title>
 <meta name="description" content="Saturday night at Ali's. Who's coming and who's bringing what.">
-<meta property="og:title" content="Friendsgiving 🦃 RSVP">
+<meta property="og:title" content="Saturday Night at Ali's 🦃 RSVP">
 <meta property="og:description" content="Saturday night at Ali's. Tell us you're coming and what you're bringing.">
 <meta name="theme-color" content="#3b1f14">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦃</text></svg>">
@@ -118,9 +118,7 @@
 <div class="wrap">
   <header>
     <div class="turkey" aria-hidden="true">🦃</div>
-    <h1>Friends<span>giving</span></h1>
-    <p class="sub">Saturday night at Ali's 🍂</p>
-    <p class="tiny">Stretchy pants strongly encouraged.</p>
+    <h1>Saturday Night at <span>Ali's</span></h1>
   </header>
 
   <div class="stats" aria-live="polite">
@@ -144,15 +142,6 @@
         <button type="button" data-v="no" aria-pressed="false">Can't 😢</button>
       </div>
 
-      <div id="countWrap">
-        <label>How many people (including you)?</label>
-        <div class="step">
-          <button type="button" id="minus" aria-label="fewer">−</button>
-          <output id="count">1</output>
-          <button type="button" id="plus" aria-label="more">+</button>
-          <span id="countNote">just me</span>
-        </div>
-      </div>
 
       <div id="bringWrap">
         <label for="bring">What are you bringing? <span style="font-weight:800;color:var(--cran)">(required)</span></label>
@@ -189,7 +178,7 @@
   const LS = 'fg-rsvp-2026-id';
   const POLL_MS = 8000;
   const $ = s => document.getElementById(s);
-  let data = { rsvps: [] }, loaded = false, status = null, count = 1, busy = false, myId = localStorage.getItem(LS);
+  let data = { rsvps: [] }, loaded = false, status = null, busy = false, myId = localStorage.getItem(LS);
 
   // ---------- helpers ----------
   const norm = s => (s || '').trim().replace(/\s+/g, ' ');
@@ -227,23 +216,15 @@
   function setStatus(v) {
     status = v;
     document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
-    $('countWrap').style.display = v === 'no' ? 'none' : '';
     $('bringWrap').style.display = v === 'no' ? 'none' : '';
   }
-  function setCount(n) {
-    count = Math.max(1, Math.min(10, n));
-    $('count').textContent = count;
-    $('countNote').textContent = count === 1 ? 'just me' : count === 2 ? 'me + 1' : 'me + ' + (count - 1);
-  }
   document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => setStatus(b.dataset.v)));
-  $('minus').onclick = () => setCount(count - 1);
-  $('plus').onclick = () => setCount(count + 1);
   $('bring').addEventListener('input', () => { $('bring').classList.remove('bad'); dupCheck(); });
   $('name').addEventListener('input', dupCheck);
 
   function mine() { return data.rsvps.find(r => r.id === myId); }
   function fillFrom(r) {
-    $('name').value = r.name; setStatus(r.status); setCount(r.count || 1); $('bring').value = r.dish || '';
+    $('name').value = r.name; setStatus(r.status); $('bring').value = r.dish || '';
   }
   function dupCheck() {
     const v = $('bring').value, me = key($('name').value);
@@ -269,7 +250,7 @@
   }
   $('notMe').onclick = () => {
     localStorage.removeItem(LS); myId = null;
-    $('f').reset(); setStatus(null); setCount(1); updateMeBar(); dupCheck(); $('name').focus();
+    $('f').reset(); setStatus(null); updateMeBar(); dupCheck(); $('name').focus();
   };
 
   const say = (t, err) => { const m = $('msg'); m.textContent = t; m.classList.toggle('err', !!err); };
@@ -290,7 +271,7 @@
     try {
       const fresh = await load(); // fresh read, then merge, then write
       let r = fresh.rsvps.find(x => x.id === myId) || fresh.rsvps.find(x => key(x.name) === key(name));
-      const entry = { id: r ? r.id : uid(), name, status, count: status === 'no' ? 0 : count, dish: status === 'no' ? '' : norm($('bring').value), updated: Date.now() };
+      const entry = { id: r ? r.id : uid(), name, status, dish: status === 'no' ? '' : norm($('bring').value), updated: Date.now() };
       if (r) Object.assign(r, entry); else fresh.rsvps.push(entry);
       data = await save(fresh);
       myId = entry.id; localStorage.setItem(LS, myId);
@@ -310,7 +291,7 @@
       fresh.rsvps = fresh.rsvps.filter(r => r.id !== myId);
       data = await save(fresh);
       localStorage.removeItem(LS); myId = null;
-      $('f').reset(); setStatus(null); setCount(1); render(); say('Removed. The turkey is sad but understands.');
+      $('f').reset(); setStatus(null); render(); say('Removed. The turkey is sad but understands.');
     } catch (e) { say('Couldn\'t remove that. Try again.', true); }
     busy = false;
   };
@@ -318,8 +299,8 @@
   // ---------- render ----------
   function render() {
     const rs = data.rsvps.slice().sort((a, b) => ({ yes: 0, maybe: 1, no: 2 }[a.status] - { yes: 0, maybe: 1, no: 2 }[b.status]) || a.name.localeCompare(b.name));
-    $('nYes').textContent = rs.filter(r => r.status === 'yes').reduce((s, r) => s + (r.count || 1), 0);
-    $('nMaybe').textContent = rs.filter(r => r.status === 'maybe').reduce((s, r) => s + (r.count || 1), 0);
+    $('nYes').textContent = rs.filter(r => r.status === 'yes').length;
+    $('nMaybe').textContent = rs.filter(r => r.status === 'maybe').length;
     $('nNo').textContent = rs.filter(r => r.status === 'no').length;
 
     const g = $('guests'); g.replaceChildren();
@@ -330,7 +311,7 @@
       const li = el('li', 'g');
       const av = el('div', 'av', [...r.name][0].toUpperCase()); av.style.background = color(r.name);
       const who = el('div', 'who'); who.append(el('b', '', r.name + (r.id === myId ? ' (you)' : '')));
-      const bits = []; if (r.status !== 'no' && r.count > 1) bits.push('+' + (r.count - 1)); if (r.dish) bits.push('bringing ' + r.dish);
+      const bits = []; if (r.dish) bits.push('bringing ' + r.dish);
       if (bits.length) who.append(el('small', '', bits.join(' · ')));
       const pill = el('span', 'pill ' + r.status, r.status === 'yes' ? 'coming' : r.status === 'maybe' ? 'maybe' : "can't");
       li.append(av, who, pill); g.append(li);
@@ -379,7 +360,7 @@
   })();
 
   // ---------- boot ----------
-  setCount(1); render();
+  render();
   refresh().then(() => { const m = mine(); if (m) fillFrom(m); updateMeBar(); });
   setInterval(() => { if (!document.hidden && !busy) refresh(); }, POLL_MS);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
