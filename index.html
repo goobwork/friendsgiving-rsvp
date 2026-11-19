@@ -156,12 +156,11 @@
 
       <div id="bringWrap">
         <label for="bring">What are you bringing? <span style="font-weight:800;color:var(--cran)">(required)</span></label>
-        <input type="text" id="bring" maxlength="60" placeholder="mac & cheese, pie, ice… (“vibes” doesn’t count)" enterkeyhint="done">
+        <input type="text" id="bring" maxlength="60" placeholder="pie, mac & cheese, ice…" enterkeyhint="done">
         <div class="policy" id="policy"><b>⚠️ Disclaimer</b>Contribute to the shindig or take yo ahh home. I'm serious. — Ali</div>
         <div class="dupwarn" id="dupwarn"></div>
       </div>
 
-      <p class="fine" id="fine">Contribute to the shindig or take yo ahh home. 🚪</p>
       <button class="go" id="go" type="submit">Save my RSVP 🦃</button>
       <p class="msg" id="msg" role="status"></p>
       <div style="text-align:center"><button type="button" class="linkbtn" id="remove" hidden>Remove my RSVP</button></div>
@@ -230,7 +229,6 @@
     document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
     $('countWrap').style.display = v === 'no' ? 'none' : '';
     $('bringWrap').style.display = v === 'no' ? 'none' : '';
-    $('fine').style.display = v === 'no' ? 'none' : '';
   }
   function setCount(n) {
     count = Math.max(1, Math.min(10, n));
