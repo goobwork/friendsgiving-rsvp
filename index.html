@@ -69,6 +69,12 @@
   }
   .go:active{transform:translateY(4px);box-shadow:0 2px 0 #8a3f08}
   .go[disabled]{opacity:.6}
+  .policy{margin-top:10px;background:#fbe3e3;border:2px solid var(--cran);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.4;color:#5c1820}
+  .policy b{display:block;font-size:15px;margin-bottom:3px;color:var(--cran)}
+  .policy.shake{animation:shake .45s}
+  @keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+  .fine{font-size:13px;color:var(--muted);text-align:center;margin:16px 0 0;font-weight:700}
+  input.bad{border-color:var(--cran);background:#fff5f5}
   .msg{min-height:20px;margin:10px 0 0;font-weight:700;font-size:15px;text-align:center}
   .msg.err{color:var(--cran)}
   .me{display:none;background:#f3e6d5;border-radius:12px;padding:10px 12px;font-size:14px;margin-bottom:4px}
@@ -149,11 +155,13 @@
       </div>
 
       <div id="bringWrap">
-        <label for="bring">What are you bringing? <span style="font-weight:600;color:var(--muted)">(optional)</span></label>
-        <input type="text" id="bring" maxlength="60" placeholder="mac & cheese, pie, ice, good vibes…" enterkeyhint="done">
+        <label for="bring">What are you bringing? <span style="font-weight:800;color:var(--cran)">(required)</span></label>
+        <input type="text" id="bring" maxlength="60" placeholder="mac & cheese, pie, ice… (\"vibes\" doesn't count)" enterkeyhint="done">
+        <div class="policy" id="policy"><b>⚠️ Empty-handed policy</b>Show up with nothing and you've got two options: perform a dance for the whole room, or take your ass home. I'm serious. I'm <i>SO</i> serious. 🕺 — Ali</div>
         <div class="dupwarn" id="dupwarn"></div>
       </div>
 
+      <p class="fine" id="fine">By tapping below you agree to the empty-handed policy. No dance, no plate. 🕺🚪</p>
       <button class="go" id="go" type="submit">Save my RSVP 🦃</button>
       <p class="msg" id="msg" role="status"></p>
       <div style="text-align:center"><button type="button" class="linkbtn" id="remove" hidden>Remove my RSVP</button></div>
@@ -195,7 +203,7 @@
   const overlap = (a, b) => { const A = new Set(words(a)); return words(b).find(w => A.has(w)); };
   const COLORS = ['#e2721b', '#a8323e', '#6f8f5a', '#c4882b', '#8b5a3c', '#5d7a8c', '#b4544a'];
   const color = s => COLORS[[...key(s)].reduce((h, c) => h + c.charCodeAt(0), 0) % COLORS.length];
-  const FOOD = [['pie', '🥧'], ['pumpkin', '🎃'], ['turkey', '🦃'], ['chicken', '🍗'], ['wing', '🍗'], ['mac', '🧀'], ['cheese', '🧀'], ['potato', '🥔'], ['mash', '🥔'], ['salad', '🥗'], ['bread', '🍞'], ['roll', '🥖'], ['corn', '🌽'], ['wine', '🍷'], ['beer', '🍺'], ['drink', '🥤'], ['soda', '🥤'], ['juice', '🧃'], ['ice', '🧊'], ['cake', '🎂'], ['cookie', '🍪'], ['brownie', '🍫'], ['dessert', '🍰'], ['rice', '🍚'], ['ham', '🍖'], ['stuffing', '🥘'], ['casserole', '🥘'], ['green bean', '🫛'], ['yam', '🍠'], ['sweet potato', '🍠'], ['gravy', '🫗'], ['cranberr', '🍒'], ['chip', '🍿'], ['snack', '🍿'], ['plate', '🍽️'], ['cup', '🥤'], ['napkin', '🧻'], ['vibe', '✨'], ['music', '🎶'], ['game', '🎲'], ['tequila', '🥃'], ['whiskey', '🥃'], ['vodka', '🍸'], ['liquor', '🥃'], ['fruit', '🍇']];
+  const FOOD = [['dance', '🕺'], ['pie', '🥧'], ['pumpkin', '🎃'], ['turkey', '🦃'], ['chicken', '🍗'], ['wing', '🍗'], ['mac', '🧀'], ['cheese', '🧀'], ['potato', '🥔'], ['mash', '🥔'], ['salad', '🥗'], ['bread', '🍞'], ['roll', '🥖'], ['corn', '🌽'], ['wine', '🍷'], ['beer', '🍺'], ['drink', '🥤'], ['soda', '🥤'], ['juice', '🧃'], ['ice', '🧊'], ['cake', '🎂'], ['cookie', '🍪'], ['brownie', '🍫'], ['dessert', '🍰'], ['rice', '🍚'], ['ham', '🍖'], ['stuffing', '🥘'], ['casserole', '🥘'], ['green bean', '🫛'], ['yam', '🍠'], ['sweet potato', '🍠'], ['gravy', '🫗'], ['cranberr', '🍒'], ['chip', '🍿'], ['snack', '🍿'], ['plate', '🍽️'], ['cup', '🥤'], ['napkin', '🧻'], ['vibe', '✨'], ['music', '🎶'], ['game', '🎲'], ['tequila', '🥃'], ['whiskey', '🥃'], ['vodka', '🍸'], ['liquor', '🥃'], ['fruit', '🍇']];
   const foodEmoji = s => { const k = key(s); const f = FOOD.find(([w]) => k.includes(w)); return f ? f[1] : '🍽️'; };
   const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
   const clean = d => ({ rsvps: Array.isArray(d && d.rsvps) ? d.rsvps.filter(r => r && r.id && r.name) : [] });
@@ -222,6 +230,7 @@
     document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
     $('countWrap').style.display = v === 'no' ? 'none' : '';
     $('bringWrap').style.display = v === 'no' ? 'none' : '';
+    $('fine').style.display = v === 'no' ? 'none' : '';
   }
   function setCount(n) {
     count = Math.max(1, Math.min(10, n));
@@ -231,7 +240,7 @@
   document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => setStatus(b.dataset.v)));
   $('minus').onclick = () => setCount(count - 1);
   $('plus').onclick = () => setCount(count + 1);
-  $('bring').addEventListener('input', dupCheck);
+  $('bring').addEventListener('input', () => { $('bring').classList.remove('bad'); dupCheck(); });
   $('name').addEventListener('input', dupCheck);
 
   function mine() { return data.rsvps.find(r => r.id === myId); }
@@ -273,6 +282,12 @@
     const name = norm($('name').value);
     if (!name) { say('We need a name. "Mystery Guest" is taken. 🕵️', true); $('name').focus(); return; }
     if (!status) { say('Coming, maybe, or can\'t? Pick one 👆', true); return; }
+    if (status !== 'no' && !norm($('bring').value)) {
+      say(status === 'yes' ? 'Nice try. What are you bringing? 👀' : 'Even a maybe brings something. What are you bringing? 👀', true);
+      const b = $('bring'), pol = $('policy'); b.classList.add('bad'); b.focus();
+      pol.classList.remove('shake'); void pol.offsetWidth; pol.classList.add('shake');
+      return;
+    }
     busy = true; $('go').disabled = true; say('Saving… 🥧');
     try {
       const fresh = await load(); // fresh read, then merge, then write
