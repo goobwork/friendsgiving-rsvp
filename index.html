@@ -190,7 +190,7 @@
   const LS = 'fg-rsvp-2026-id';
   const POLL_MS = 8000;
   const $ = s => document.getElementById(s);
-  let data = { rsvps: [] }, status = null, count = 1, busy = false, myId = localStorage.getItem(LS);
+  let data = { rsvps: [] }, loaded = false, status = null, count = 1, busy = false, myId = localStorage.getItem(LS);
 
   // ---------- helpers ----------
   const norm = s => (s || '').trim().replace(/\s+/g, ' ');
@@ -220,7 +220,7 @@
     return clean(await r.json());
   }
   async function refresh() {
-    try { data = await load(); setLive(true); render(); } catch (e) { setLive(false); }
+    try { data = await load(); loaded = true; setLive(true); render(); } catch (e) { setLive(false); }
   }
   function setLive(ok) { const l = $('live'); l.classList.toggle('off', !ok); l.lastChild.textContent = ok ? 'live' : 'offline, retrying'; }
 
@@ -351,7 +351,7 @@
       d.append(el('div', 'e', foodEmoji(r.dish)), t); box.append(d);
     });
 
-    if (myId && !mine()) { localStorage.removeItem(LS); myId = null; }
+    if (loaded && myId && !mine()) { localStorage.removeItem(LS); myId = null; }
     updateMeBar(); dupCheck();
   }
 
