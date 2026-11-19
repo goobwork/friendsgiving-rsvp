@@ -157,11 +157,11 @@
       <div id="bringWrap">
         <label for="bring">What are you bringing? <span style="font-weight:800;color:var(--cran)">(required)</span></label>
         <input type="text" id="bring" maxlength="60" placeholder="mac & cheese, pie, ice… (“vibes” doesn’t count)" enterkeyhint="done">
-        <div class="policy" id="policy"><b>⚠️ Empty-handed policy</b>Show up with nothing and you've got two options: perform a dance for the whole room, or take your ass home. I'm serious. I'm <i>SO</i> serious. 🕺 — Ali</div>
+        <div class="policy" id="policy"><b>⚠️ Disclaimer</b>Contribute to the shindig or take yo ahh home. I'm serious. — Ali</div>
         <div class="dupwarn" id="dupwarn"></div>
       </div>
 
-      <p class="fine" id="fine">By tapping below you agree to the empty-handed policy. No dance, no plate. 🕺🚪</p>
+      <p class="fine" id="fine">Contribute to the shindig or take yo ahh home. 🚪</p>
       <button class="go" id="go" type="submit">Save my RSVP 🦃</button>
       <p class="msg" id="msg" role="status"></p>
       <div style="text-align:center"><button type="button" class="linkbtn" id="remove" hidden>Remove my RSVP</button></div>
@@ -203,7 +203,7 @@
   const overlap = (a, b) => { const A = new Set(words(a)); return words(b).find(w => A.has(w)); };
   const COLORS = ['#e2721b', '#a8323e', '#6f8f5a', '#c4882b', '#8b5a3c', '#5d7a8c', '#b4544a'];
   const color = s => COLORS[[...key(s)].reduce((h, c) => h + c.charCodeAt(0), 0) % COLORS.length];
-  const FOOD = [['dance', '🕺'], ['pie', '🥧'], ['pumpkin', '🎃'], ['turkey', '🦃'], ['chicken', '🍗'], ['wing', '🍗'], ['mac', '🧀'], ['cheese', '🧀'], ['potato', '🥔'], ['mash', '🥔'], ['salad', '🥗'], ['bread', '🍞'], ['roll', '🥖'], ['corn', '🌽'], ['wine', '🍷'], ['beer', '🍺'], ['drink', '🥤'], ['soda', '🥤'], ['juice', '🧃'], ['ice', '🧊'], ['cake', '🎂'], ['cookie', '🍪'], ['brownie', '🍫'], ['dessert', '🍰'], ['rice', '🍚'], ['ham', '🍖'], ['stuffing', '🥘'], ['casserole', '🥘'], ['green bean', '🫛'], ['yam', '🍠'], ['sweet potato', '🍠'], ['gravy', '🫗'], ['cranberr', '🍒'], ['chip', '🍿'], ['snack', '🍿'], ['plate', '🍽️'], ['cup', '🥤'], ['napkin', '🧻'], ['vibe', '✨'], ['music', '🎶'], ['game', '🎲'], ['tequila', '🥃'], ['whiskey', '🥃'], ['vodka', '🍸'], ['liquor', '🥃'], ['fruit', '🍇']];
+  const FOOD = [['pie', '🥧'], ['pumpkin', '🎃'], ['turkey', '🦃'], ['chicken', '🍗'], ['wing', '🍗'], ['mac', '🧀'], ['cheese', '🧀'], ['potato', '🥔'], ['mash', '🥔'], ['salad', '🥗'], ['bread', '🍞'], ['roll', '🥖'], ['corn', '🌽'], ['wine', '🍷'], ['beer', '🍺'], ['drink', '🥤'], ['soda', '🥤'], ['juice', '🧃'], ['ice', '🧊'], ['cake', '🎂'], ['cookie', '🍪'], ['brownie', '🍫'], ['dessert', '🍰'], ['rice', '🍚'], ['ham', '🍖'], ['stuffing', '🥘'], ['casserole', '🥘'], ['green bean', '🫛'], ['yam', '🍠'], ['sweet potato', '🍠'], ['gravy', '🫗'], ['cranberr', '🍒'], ['chip', '🍿'], ['snack', '🍿'], ['plate', '🍽️'], ['cup', '🥤'], ['napkin', '🧻'], ['vibe', '✨'], ['music', '🎶'], ['game', '🎲'], ['tequila', '🥃'], ['whiskey', '🥃'], ['vodka', '🍸'], ['liquor', '🥃'], ['fruit', '🍇']];
   const foodEmoji = s => { const k = key(s); const f = FOOD.find(([w]) => k.includes(w)); return f ? f[1] : '🍽️'; };
   const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
   const clean = d => ({ rsvps: Array.isArray(d && d.rsvps) ? d.rsvps.filter(r => r && r.id && r.name) : [] });
